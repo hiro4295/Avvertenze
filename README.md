@@ -1,5 +1,4 @@
 # swiftzy
     
-    messaging app
-    bot functionality
+    This is a IDE for discord bot creation
     
