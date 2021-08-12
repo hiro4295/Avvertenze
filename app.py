@@ -4,17 +4,15 @@ root = Tk()
 root.iconbitmap('./logo.ico')
 root.title("swiftzy")
 
-def enter():
-    label_message = Label(frame, text = message_input.get())
-    label_message.grid(column=0,row=1)
+userDataFrame = LabelFrame(root, text = "User Data", padx = 20, pady = 20)
+userDataFrame.grid(column=0,row=0,padx=5,pady=5)
 
-frame = LabelFrame(root, text="Avvertenze", padx=480, pady=480)
-frame.grid(column=0,row=0,padx=5,pady=5)
+botListFrame = LabelFrame(root, text = "Bots", padx = 20, pady = 20)
+botListFrame.grid(column=0,row=1,padx=5,pady=5)
 
-message_input = Entry(frame, width=100,borderwidth=5)
-message_input.grid(column=9,row=0, columnspan=6, padx=10, pady=10)
+Label(userDataFrame, text = "Name: Hilogen                     ").grid(row = 0, column = 0)
+Label(userDataFrame, text = "Email: example@example.com").grid(row = 0, column = 1)
 
-button_1 = Button(frame, text = "text",command= enter)
-button_1.grid(column=1, row=1)
+Button(botListFrame, text = "Add Bot").grid(row = 0, column = 0, padx = 140)
 
 root.mainloop()
