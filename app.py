@@ -2,7 +2,7 @@ from tkinter import *
 
 root = Tk()
 root.iconbitmap('./logo.ico')
-root.title("Avvertenze")
+root.title("swiftzy")
 
 def enter():
     label_message = Label(frame, text = message_input.get())
