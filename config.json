@@ -1,0 +1,17 @@
+[
+    {
+        "empty":"kept empty for display issue"
+    },
+    {
+        "name":"BOT1",
+        "token":"TOKEN1"
+    },
+    {
+        "name":"BOT2",
+        "token":"TOKEN2"
+    },
+    {
+        "name":"BOT3",
+        "token":"TOKEN3"
+    }
+]
