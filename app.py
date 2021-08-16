@@ -23,12 +23,12 @@ def signup():
 def login(username, password, loginFrame):
 
     if (username == ""):
-        notProvided = Label(loginFrame, text = "* Must provide a valid username or an email.")
-        notProvided.grid(row = 0, column = 2)
+        notProvided = Label(loginFrame, text = "* Must fill all the required fields.")
+        notProvided.grid(row = 3, column = 1)
     
     elif (password == ""):
-        notProvided = Label(loginFrame, text = "* Must provide a valid password.")
-        notProvided.grid(row = 1, column = 2)
+        notProvided = Label(loginFrame, text = "* Must fill all the required fields.")
+        notProvided.grid(row = 3, column = 1)
 
     else:
 
