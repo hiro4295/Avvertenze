@@ -101,7 +101,7 @@ def firstDisplay():
     userDataFrame = LabelFrame(root, text = "User Data", padx = 80, pady = 20)
     userDataFrame.grid(column=0,row=0,padx=5,pady=5)
 
-    botListFrame = LabelFrame(root, text = "Bots", padx = 20, pady = 20)
+    botListFrame = LabelFrame(root, text = "Bots", padx = 90, pady = 20)
     botListFrame.grid(column=0,row=1,padx=5,pady=5)
 
     Label(userDataFrame, text = f"Name: "+userdata["username"]+"                     ").grid(row = 0, column = 0)
