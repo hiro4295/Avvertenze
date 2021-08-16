@@ -5,10 +5,7 @@ root = Tk()
 root.iconbitmap('./logo.ico')
 root.title("swiftzy")
 selectedBot = None
-loginFrame = LabelFrame(root, text = "Log in/Sign up", padx = 80, pady = 80)
-loginFrame.grid(row = 0, column = 0, padx = 2, pady = 2)
-usernameEntry = Entry(loginFrame).grid(row = 0, column = 1, padx = 3, pady = 2)
-passwordEntry = Entry(loginFrame).grid(row = 1, column = 1, padx = 3, pady = 2)
+notProvided = None
 with open("userdata.json", "r") as f:
     userdata = json.load(f)
 
@@ -20,15 +17,47 @@ def selectBot(userDataFrame, botListFrame):
     botListFrame.destroy()
     Button(root, text = "revert", command = firstDisplay).grid(row = 0, column = 0)
 
-def login(username, password):
-    print(username)
-    print(password)
+def signup():
+    pass
+
+def login(username, password, loginFrame):
+
+    if (username == ""):
+        notProvided = Label(loginFrame, text = "* Must provide a valid username or an email.")
+        notProvided.grid(row = 0, column = 2)
+    
+    elif (password == ""):
+        notProvided = Label(loginFrame, text = "* Must provide a valid password.")
+        notProvided.grid(row = 1, column = 2)
+
+    else:
+
+        if("@" in username and "." in username):
+            userdata["email"] = username
+        else:
+            userdata["username"] = username
+    
+        userdata["password"] = password
+        userdata["login"] = True
+
+        with open("userdata.json", "w") as f:
+            json.dump(userdata, f)
+    
+        loginFrame.destroy()
+
+        firstDisplay()
 
 def loginDisplay():
+    loginFrame = LabelFrame(root, text = "Log In/Sign Up", padx = 80, pady = 80)
+    loginFrame.grid(padx = 3, pady = 3)
+    usernameEntry = Entry(loginFrame)
+    usernameEntry.grid(row = 0, column = 1, padx = 3, pady = 2)
+    passwordEntry = Entry(loginFrame)
+    passwordEntry.grid(row = 1, column = 1, padx = 3, pady = 2)
     Label(loginFrame, text = "Username/Email : ").grid(row = 0, column = 0, padx = 3, pady = 2)
     Label(loginFrame, text = "Password : ").grid(row = 1, column = 0, padx = 3, pady = 2)
-    Button(loginFrame, text = "Log In", command = lambda: login(usernameEntry.get(), passwordEntry.get())).grid(row = 2, column = 0, padx = 3, pady = 2)
-    Button(loginFrame, text = "Sign Up instead").grid(row = 2, column = 1, padx = 3, pady = 2)
+    Button(loginFrame, text = "Log In", command = lambda: login(usernameEntry.get(), passwordEntry.get(), loginFrame)).grid(row = 2, column = 0, padx = 3, pady = 2)
+    Button(loginFrame, text = "Sign Up instead", command = lambda: signup()).grid(row = 2, column = 1, padx = 3, pady = 2)
 
 def firstDisplay():
     userDataFrame = LabelFrame(root, text = "User Data", padx = 20, pady = 20)
@@ -37,8 +66,8 @@ def firstDisplay():
     botListFrame = LabelFrame(root, text = "Bots", padx = 20, pady = 20)
     botListFrame.grid(column=0,row=1,padx=5,pady=5)
 
-    Label(userDataFrame, text = "Name: Hilogen                     ").grid(row = 0, column = 0)
-    Label(userDataFrame, text = "Email: example@example.com").grid(row = 0, column = 1)
+    Label(userDataFrame, text = f"Name: "+userdata["username"]+"                     ").grid(row = 0, column = 0)
+    Label(userDataFrame, text = f"Email: "+userdata["email"]+"").grid(row = 0, column = 1)
 
     Button(botListFrame, text = "Add Bot",command=lambda: addBot()).grid(row = 0, column = 0, pady = 10)
 

@@ -1,6 +1,1 @@
-{
-    "login":false,
-    "username":"",
-    "email":"",
-    "password":""
-}
+{"login": false, "username": "", "email": "", "password": ""}
