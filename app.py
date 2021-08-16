@@ -59,6 +59,14 @@ def loginDisplay():
     Button(loginFrame, text = "Log In", command = lambda: login(usernameEntry.get(), passwordEntry.get(), loginFrame)).grid(row = 2, column = 0, padx = 3, pady = 2)
     Button(loginFrame, text = "Sign Up instead", command = lambda: signup()).grid(row = 2, column = 1, padx = 3, pady = 2)
 
+def signout(userDataFrame, botListFrame):
+    userDataFrame.destroy()
+    botListFrame.destroy()
+    userdata["login"] = False
+    with open("userdata.json", "w") as f:
+        json.dump(userdata, f)
+    loginDisplay()
+
 def firstDisplay():
     userDataFrame = LabelFrame(root, text = "User Data", padx = 20, pady = 20)
     userDataFrame.grid(column=0,row=0,padx=5,pady=5)
@@ -68,6 +76,7 @@ def firstDisplay():
 
     Label(userDataFrame, text = f"Name: "+userdata["username"]+"                     ").grid(row = 0, column = 0)
     Label(userDataFrame, text = f"Email: "+userdata["email"]+"").grid(row = 0, column = 1)
+    Button(userDataFrame, text = "Sign Out", command = lambda: signout(userDataFrame, botListFrame)).grid(row = 1, column = 0)
 
     Button(botListFrame, text = "Add Bot",command=lambda: addBot()).grid(row = 0, column = 0, pady = 10)
 
