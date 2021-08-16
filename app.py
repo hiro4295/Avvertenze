@@ -63,12 +63,42 @@ def signout(userDataFrame, botListFrame):
     userDataFrame.destroy()
     botListFrame.destroy()
     userdata["login"] = False
+    userdata["email"] = ""
+    userdata["username"] = ""
+    userdata["password"] = ""
     with open("userdata.json", "w") as f:
         json.dump(userdata, f)
     loginDisplay()
 
+def updateInfo(addInfoFrame, infoType, info):
+    if(infoType == "email"):
+        if(not "@" in info or not "." in info):
+            Label(addInfoFrame, text = "* Please enter a valid email.").grid(row = 0, column = 2)
+        else:
+            userdata[infoType] = info
+            with open("userdata.json", "w") as f:
+                json.dump(userdata, f)
+            addInfoFrame.destroy()
+            firstDisplay()
+    else:
+        userdata[infoType] = info
+        with open("userdata.json", "w") as f:
+            json.dump(userdata, f)
+        addInfoFrame.destroy()
+        firstDisplay()
+
+def addInfo(userDataFrame, botListFrame, infoType):
+    userDataFrame.destroy()
+    botListFrame.destroy()
+    addInfoFrame = LabelFrame(root, text = f"Add {infoType}", padx = 80, pady = 80)
+    addInfoFrame.grid(row = 0, column = 0, padx = 3, pady = 3)
+    Label(addInfoFrame, text = f"Enter {infoType} : ").grid(row = 0, column = 0)
+    infoEntry = Entry(addInfoFrame)
+    infoEntry.grid(row = 0, column = 1)
+    Button(addInfoFrame, text = f"Update current {infoType}", command = lambda: updateInfo(addInfoFrame, infoType, infoEntry.get())).grid(row = 1, column = 1)
+
 def firstDisplay():
-    userDataFrame = LabelFrame(root, text = "User Data", padx = 100, pady = 20)
+    userDataFrame = LabelFrame(root, text = "User Data", padx = 80, pady = 20)
     userDataFrame.grid(column=0,row=0,padx=5,pady=5)
 
     botListFrame = LabelFrame(root, text = "Bots", padx = 20, pady = 20)
@@ -76,7 +106,13 @@ def firstDisplay():
 
     Label(userDataFrame, text = f"Name: "+userdata["username"]+"                     ").grid(row = 0, column = 0)
     Label(userDataFrame, text = f"Email: "+userdata["email"]+"").grid(row = 0, column = 1)
-    Button(userDataFrame, text = "Sign Out", command = lambda: signout(userDataFrame, botListFrame)).grid(row = 1, column = 1, pady = 15)
+
+    if(userdata["username"] == ""):
+        Button(userDataFrame, text = "Add Username", command = lambda: addInfo(userDataFrame, botListFrame, "username")).grid(row = 1, column = 1)
+    elif(userdata["email"] == ""):
+        Button(userDataFrame, text = "Add Email", command = lambda: addInfo(userDataFrame, botListFrame, "email")).grid(row = 1, column = 1)
+
+    Button(userDataFrame, text = "Sign Out", command = lambda: signout(userDataFrame, botListFrame)).grid(row = 1, column = 0, pady = 15)
 
     Button(botListFrame, text = "Add Bot",command=lambda: addBot()).grid(row = 0, column = 0, pady = 10)
 
