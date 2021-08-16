@@ -8,14 +8,52 @@ selectedBot = None
 notProvided = None
 with open("userdata.json", "r") as f:
     userdata = json.load(f)
+with open("config.json", "r") as f:
+    config = json.load(f)
 
-def addBot() : 
-    pass
+def goBackFromAddBot(addBotFrame):
+    addBotFrame.destroy()
+    firstDisplay()
 
-def selectBot(userDataFrame, botListFrame):
+def createBot(addBotFrame, name, token):
+    if(name == "" or token == ""):
+        Label(addBotFrame, text = "* Must enter all the required info.").grid(row = 4, column = 2)
+    else:
+        botExistsAlready = False
+        sl = 1
+        while sl < len(config):
+            if(config[sl]["name"] == name):
+                botExistsAlready = True
+            sl += 1
+
+        if(botExistsAlready == True):
+            Label(addBotFrame, text = "* Cannot use an existing name for a new bot.").grid(row = 4, column = 2)
+        else:
+            config.append({"name":name, "token":token})
+
+            with open("config.json", "w") as f:
+                json.dump(config, f)
+            addBotFrame.destroy()
+            firstDisplay()
+
+def addBot(userDataFrame, botListFrame): 
     userDataFrame.destroy()
     botListFrame.destroy()
-    Button(root, text = "revert", command = firstDisplay).grid(row = 0, column = 0)
+    addBotFrame = LabelFrame(root, text = "Create a new bot", padx = 10, pady = 10)
+    addBotFrame.grid(row = 0, column = 0)
+    Button(addBotFrame, text = "Go Back", command = lambda: goBackFromAddBot(addBotFrame)).grid(row = 0, column = 0)
+    Label(addBotFrame, text = "Enter Bot Name : ").grid(row = 1, column = 1, pady = 5)
+    Label(addBotFrame, text = "Add Bot Token : ").grid(row = 2, column = 1, pady = 5)
+    botNameEntry = Entry(addBotFrame)
+    botNameEntry.grid(row = 1, column = 2)
+    botTokenEntry = Entry(addBotFrame)
+    botTokenEntry.grid(row = 2, column = 2)
+    Button(addBotFrame, text = "Create Bot", command = lambda: createBot(addBotFrame, botNameEntry.get(), botTokenEntry.get())).grid(row = 3, column = 2)
+
+def selectBot(name):
+    userDataFrame.destroy()
+    botListFrame.destroy()
+    Button(root, text = name, command = firstDisplay).grid(row = 0, column = 0)
 
 def signup():
     pass
@@ -98,6 +136,9 @@ def addInfo(userDataFrame, botListFrame, infoType):
     Button(addInfoFrame, text = f"Update current {infoType}", command = lambda: updateInfo(addInfoFrame, infoType, infoEntry.get())).grid(row = 1, column = 1)
 
 def firstDisplay():
+    global userDataFrame
+    global botListFrame
+
     userDataFrame = LabelFrame(root, text = "User Data", padx = 80, pady = 20)
     userDataFrame.grid(column=0,row=0,padx=5,pady=5)
 
@@ -114,16 +155,13 @@ def firstDisplay():
 
     Button(userDataFrame, text = "Sign Out", command = lambda: signout(userDataFrame, botListFrame)).grid(row = 1, column = 0, pady = 15)
 
-    Button(botListFrame, text = "Add Bot",command=lambda: addBot()).grid(row = 0, column = 0, pady = 10)
-
-    with open("config.json", "r") as f:
-        config = json.load(f)
+    Button(botListFrame, text = "Add Bot",command=lambda: addBot(userDataFrame, botListFrame)).grid(row = 0, column = 0, pady = 10)
 
     botCount = len(config)
     botAddedCount = 1
 
     while botAddedCount < botCount :
-        Button(botListFrame, text = config[botAddedCount]["name"], padx = 140, command = lambda: selectBot(userDataFrame, botListFrame)).grid(row = botAddedCount, column = 0, pady = 3)
+        exec(f'global {config[botAddedCount]["name"]}Button\n{config[botAddedCount]["name"]}Button = Button(botListFrame, text = config[botAddedCount]["name"], padx = 140, command = lambda: selectBot({config[botAddedCount]["name"]}Button.cget("text")))\n{config[botAddedCount]["name"]}Button.grid(row = botAddedCount, column = 0, pady = 3)')
         botAddedCount += 1
 
 if (userdata["login"] == True):

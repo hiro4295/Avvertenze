@@ -1,17 +1,1 @@
-[
-    {
-        "empty":"kept empty for display issue"
-    },
-    {
-        "name":"BOT1",
-        "token":"TOKEN1"
-    },
-    {
-        "name":"BOT2",
-        "token":"TOKEN2"
-    },
-    {
-        "name":"BOT3",
-        "token":"TOKEN3"
-    }
-]
+[{"empty": "kept empty for display issue"}, {"name": "BOT1", "token": "TOKEN1"}, {"name": "BOT2", "token": "TOKEN2"}, {"name": "BOT3", "token": "TOKEN3"}, {"name": "BOT4", "token": "TOKEN4"}, {"name": "BOT5", "token": "TOKEN5"}]
