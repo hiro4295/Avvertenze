@@ -68,7 +68,7 @@ def signout(userDataFrame, botListFrame):
     loginDisplay()
 
 def firstDisplay():
-    userDataFrame = LabelFrame(root, text = "User Data", padx = 20, pady = 20)
+    userDataFrame = LabelFrame(root, text = "User Data", padx = 100, pady = 20)
     userDataFrame.grid(column=0,row=0,padx=5,pady=5)
 
     botListFrame = LabelFrame(root, text = "Bots", padx = 20, pady = 20)
@@ -76,7 +76,7 @@ def firstDisplay():
 
     Label(userDataFrame, text = f"Name: "+userdata["username"]+"                     ").grid(row = 0, column = 0)
     Label(userDataFrame, text = f"Email: "+userdata["email"]+"").grid(row = 0, column = 1)
-    Button(userDataFrame, text = "Sign Out", command = lambda: signout(userDataFrame, botListFrame)).grid(row = 1, column = 0)
+    Button(userDataFrame, text = "Sign Out", command = lambda: signout(userDataFrame, botListFrame)).grid(row = 1, column = 1, pady = 15)
 
     Button(botListFrame, text = "Add Bot",command=lambda: addBot()).grid(row = 0, column = 0, pady = 10)
 
